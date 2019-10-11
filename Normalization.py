@@ -10,6 +10,7 @@ def normalize_dataframe(name):
     df = standardize_xlsx(name)
     x= df.iloc[:,0:15]
     y= df.iloc[:,15]
+    #use normalizing logic
     x = (x - x.mean()) / (x.max() - x.min())
     return x,y,df
 

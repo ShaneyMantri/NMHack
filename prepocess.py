@@ -4,17 +4,12 @@ import pandas as pd
 from pandas import ExcelFile, ExcelWriter
 from sklearn.metrics import classification_report, confusion_matrix
 
-# def xlsx_to_csv():
-#     df = pd.read_excel("Train Data.xlsx")
-#     df.to_csv("Train_Data.csv", sep=",")
 
-
-# xlsx_to_csv()
 
 def standardize_xlsx(name):
-    data = pd.read_excel('{}.xlsx'.format(name),sheet_name='{}'.format(name))
+    data = pd.read_excel('{}.xlsx'.format(name))
 
-
+    #creating dictionaries for each non numerical attribute with their labels
     job_array = data.job.unique()
     job_array.sort()
     job_dict = {job_array[i]:i for i in range(len(job_array))}
@@ -34,12 +29,14 @@ def standardize_xlsx(name):
     pout_array.sort()
     pout_dict = {pout_array[i]:i for i in range(len(pout_array))}
 
+    #creating duration dictionary after scanning the heatmap
     duration_array = data.duration
     duration_dict = {duration_array[i]:duration_array[i]*2 for i in range(len(duration_array))}
+
     # campaign_array = data.campaign
     # campaign_dict = {campaign_array[i]:campaign_array[i]*1.3 for i in range(len(campaign_array))}
 
-
+    #mapping each processed attribute in the dataset
     data.job=[job_dict[item] for item in data.job]
     data.marital=[marital_dict[item] for item in data.marital]
     data.education=[edu_dict[item] for item in data.education]
