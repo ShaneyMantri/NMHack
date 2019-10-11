@@ -2,6 +2,7 @@ import csv
 
 import pandas as pd
 from pandas import ExcelFile, ExcelWriter
+from sklearn.metrics import classification_report, confusion_matrix
 
 # def xlsx_to_csv():
 #     df = pd.read_excel("Train Data.xlsx")
@@ -10,9 +11,8 @@ from pandas import ExcelFile, ExcelWriter
 
 # xlsx_to_csv()
 
-
-def standardize_xlsx():
-    data = pd.read_excel('Train Data.xlsx',sheet_name='Train Data')
+def standardize_xlsx(name):
+    data = pd.read_excel('{}.xlsx'.format(name),sheet_name='{}'.format(name))
 
 
     job_array = data.job.unique()
@@ -34,6 +34,12 @@ def standardize_xlsx():
     pout_array.sort()
     pout_dict = {pout_array[i]:i for i in range(len(pout_array))}
 
+    duration_array = data.duration
+    duration_dict = {duration_array[i]:duration_array[i]*2 for i in range(len(duration_array))}
+    # campaign_array = data.campaign
+    # campaign_dict = {campaign_array[i]:campaign_array[i]*1.3 for i in range(len(campaign_array))}
+
+
     data.job=[job_dict[item] for item in data.job]
     data.marital=[marital_dict[item] for item in data.marital]
     data.education=[edu_dict[item] for item in data.education]
@@ -42,5 +48,10 @@ def standardize_xlsx():
     data.smart=[smart_dict[item] for item in data.smart]
     data.last_month=[mon_dict[item] for item in data.last_month]
     data.poutcome=[pout_dict[item] for item in data.poutcome]
+    data.duration=[duration_dict[item] for item in data.duration]
+    
+    # data.campaign=[campaign_dict[item] for item in data.campaign]
     return data
+
+# standardize_xlsx(name)
 
